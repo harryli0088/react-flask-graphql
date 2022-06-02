@@ -9,10 +9,13 @@ import {
   InMemoryCache,
   ApolloProvider,
 } from "@apollo/client";
+import { createUploadLink } from "apollo-upload-client";
 
 const client = new ApolloClient({
-  uri: 'http://localhost:8000/graphql',
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
+  link: createUploadLink({
+    uri: 'http://localhost:8000/graphql'
+  }),
 });
 
 const root = ReactDOM.createRoot(

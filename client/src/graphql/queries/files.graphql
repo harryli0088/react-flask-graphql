@@ -1,0 +1,6 @@
+query files {
+  files {
+    name
+    lastModified
+  }
+}

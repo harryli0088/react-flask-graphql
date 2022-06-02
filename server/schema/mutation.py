@@ -33,6 +33,7 @@ class UploadMutation(graphene.Mutation):
         success = graphene.Boolean()
 
         def mutate(self, info, file, **kwargs):
+            print(file)
             file.save(join("files",file.filename))
 
             return UploadMutation(success=True)

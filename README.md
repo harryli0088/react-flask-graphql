@@ -46,7 +46,7 @@ https://altair.sirmuel.design/
 
 ### Example File Upload Mutation
 ```
-mutation MyMutation($file:Upload!) {
+mutation UploadFile($file:Upload!) {
   uploadFile(file: $file) {
     success
   }
