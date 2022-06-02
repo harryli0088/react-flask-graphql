@@ -4,7 +4,6 @@ import './App.css';
 
 import {
   useQuery,
-  gql,
   useMutation
 } from "@apollo/client";
 import { FilesDocument, FilesQuery, UploadFileDocument, UploadMutation } from './graphql/generated';
@@ -33,7 +32,10 @@ function Files() {
 
 function UploadFile() {
   const [file, setFile] = useState<File | null>(null)
-  const [uploadFile, { data, loading, error }] = useMutation<UploadMutation>(UploadFileDocument)
+  const [uploadFile, { loading, error }] = useMutation<UploadMutation>(
+    UploadFileDocument,
+    { refetchQueries: [{query: FilesDocument}] } //automatically rerun this query after this mutation
+  )
 
   const selectFileUpload = (e:React.ChangeEvent<HTMLInputElement>) => {
     if(e.target.files?.[0]) {
@@ -43,7 +45,6 @@ function UploadFile() {
 
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log("file",file)
     if(file) {
       uploadFile({variables:{file}})
     }
@@ -57,6 +58,7 @@ function UploadFile() {
         <br/><br/>
         <button disabled={!file}>{file ? "Upload File" : "Select a File..."}</button>
         <br/>
+        <p>{loading && `Uploading...`}</p>
         <p>{error?.message && `Error: ${error.message}`}</p>
       </form>
     </div>

@@ -13,7 +13,7 @@ import { createUploadLink } from "apollo-upload-client";
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: createUploadLink({
+  link: createUploadLink({ //this allows us to upload files via GraphQL https://github.com/jaydenseric/apollo-upload-client
     uri: 'http://localhost:8000/graphql'
   }),
 });
