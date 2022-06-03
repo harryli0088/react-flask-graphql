@@ -1,4 +1,7 @@
 import logo from './logo.svg';
+import flaskLogo from './flask_logo.png';
+import graphqlLogo from './graphql_logo.png';
+import sqlite3Logo from './sqlite3_logo.png';
 import './App.css';
 
 import Books from "./Components/Books"
@@ -15,19 +18,34 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <br/><br/>
+        <h1>React Flask GraphQL SQLite3 Application</h1>
+        <br/><br/>
+        <div className="flex">
+          <img src={logo} alt="react logo"/>
+          <img src={flaskLogo} alt="flask logo"/>
+        </div>
+        <div className="flex">
+          <img src={graphqlLogo} alt="graphql logo"/>
+          <img src={sqlite3Logo} alt="sqlite3 logo"/>
+        </div>
+        <br/><br/><br/>
       </header>
 
       <section>
-        <Books/>
+        <div className="flex">
+          <CreateBook/>
 
-        <CreateBook/>
+          <Books/>
+        </div>
       </section>
 
       <section>
-        <Files/>
+        <div className="flex">
+          <UploadFile/>
 
-        <UploadFile/>
+          <Files/>
+        </div>
       </section>
     </div>
   );

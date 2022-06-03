@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   useMutation,
@@ -14,7 +14,6 @@ import {
 
 export default function CreateBook() {
   const { loading:genresLoading, error:genresError, data:genres } = useQuery<GenresQuery>(GenresDocument);
-  console.log("genres",genres)
 
   const [genreId, setGenreId] = useState<string>("")
   const [name, setName] = useState<string>("")
@@ -22,6 +21,12 @@ export default function CreateBook() {
     CreateBookDocument,
     { refetchQueries: [{query: BooksDocument}] } //automatically rerun this query after this mutation
   )
+
+  useEffect(() => {
+    if(genreId==="" && genres?.genres?.[0]?.id) {
+      setGenreId(genres.genres[0].id)
+    }
+  },[genreId, genres])
 
   const isValid = name.trim() && genreId.trim()
 
@@ -46,17 +51,24 @@ export default function CreateBook() {
   return (
     <div>
       <form onSubmit={submit}>
-        <label htmlFor="create-book-name">Book Name</label>
-        <input type="text" id="create-book-name" name="create-book-name" onChange={changeName}/>
-        <br/><br/>
-        <label htmlFor="create-book-genre">Genre</label>
-        <select name="create-book-genre" id="create-book-genre" onChange={changeGenre}>
-          {genres?.genres?.map(g => (
-            g && <option key={g.id} value={g.id}>{g.name}</option>
-          ))}
-        </select>
-        <br/><br/>
-        <button disabled={!isValid}>{isValid ? "Add Book" : "Add Book Info..."}</button>
+        <h2>Add a New Book</h2>
+        <div className="flex">
+          <div>
+            <label htmlFor="create-book-name">Book Name:</label>
+            <input type="text" id="create-book-name" name="create-book-name" onChange={changeName}/>
+          </div>
+
+          <div>
+            <label htmlFor="create-book-genre">Genre:</label>
+            <select name="create-book-genre" id="create-book-genre" onChange={changeGenre}>
+              {genres?.genres?.map(g => (
+                g && <option key={g.id} value={g.id}>{g.name}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <br/>
+        <button disabled={!isValid}>Add Book</button>
         <br/>
         <p>{createBookLoading && `Add...`}</p>
         <p>{createBookError?.message && `Error: ${createBookError.message}`}</p>
