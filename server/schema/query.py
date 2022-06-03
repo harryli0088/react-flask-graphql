@@ -4,6 +4,7 @@ from graphene import relay, String
 from models.genres import Genres as GenresModel
 from models.books import Books as BooksModel
 from graphqltypes.books import Books
+from graphqltypes.genres import Genres
 from graphqltypes.files import Files
 
 from os import listdir
@@ -13,15 +14,22 @@ from os.path import getmtime, isfile, join
 class Query(graphene.ObjectType):
     node = relay.Node.Field()
 
+    books = graphene.List(Books)
     books_by_name = graphene.List(Books, name=graphene.String())
     books_by_genre = graphene.List(Books, name=graphene.String())
+    genres = graphene.List(Genres)
 
     files = graphene.List(Files)
     hello = String(name=String(default_value="stranger"))
     goodbye = String()
 
     @staticmethod
+    def resolve_books(parent,info,**args):
+        return Books.get_query(info)
+
+    @staticmethod
     def resolve_books_by_name(parent, info, **args):
+        print("info",info)
         q = args.get('name')
 
         books_query = Books.get_query(info)
@@ -35,6 +43,12 @@ class Query(graphene.ObjectType):
         books_query = Books.get_query(info)
 
         return books_query.join(GenresModel).filter(GenresModel.name == q).all()
+
+    @staticmethod
+    def resolve_genres(parent,info,**args):
+        return Genres.get_query(info)
+
+
 
     @staticmethod
     def resolve_files(root, info):

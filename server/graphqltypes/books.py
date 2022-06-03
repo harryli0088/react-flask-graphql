@@ -11,8 +11,9 @@ class Books(SQLAlchemyObjectType):
 
 
 class BookAttribute:
-    name = graphene.String()
     author = graphene.String()
+    genre_id = graphene.String()
+    name = graphene.String()
 
 
 class CreateBookInput(graphene.InputObjectType, BookAttribute):

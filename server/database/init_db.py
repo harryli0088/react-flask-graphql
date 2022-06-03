@@ -5,7 +5,6 @@ from database.base import Base
 def init_db():
     from models.genres import Genres
     from models.books import Books
-    from models.characters import Characters
 
     Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
@@ -27,18 +26,5 @@ def init_db():
     crime_punishment = Books(name='Crime and Punishment', author='Fyodor Dostoyevsky',
                              genre=philosophical_novel)
     db_session.add(crime_punishment)
-
-    peter_pan = Characters(name='Peter Pan', book=peter_wendy)
-    db_session.add(peter_pan)
-    wendy_darling = Characters(name='Wendy Darling', book=peter_wendy)
-    db_session.add(wendy_darling)
-    berzelius_windrip = Characters(name='Berzelius Windrip', book=it_cant_happen)
-    db_session.add(berzelius_windrip)
-    kaz_brekker = Characters(name='Kaz Brekker', book=crooked_kingdom)
-    db_session.add(kaz_brekker)
-    inej_ghafa = Characters(name='Inej Ghafa', book=crooked_kingdom)
-    db_session.add(inej_ghafa)
-    raskolnikov = Characters(name='Raskolnikov', book=crime_punishment)
-    db_session.add(raskolnikov)
 
     db_session.commit()

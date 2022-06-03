@@ -45,15 +45,6 @@ export type BooksEdge = {
   node?: Maybe<Books>;
 };
 
-export type Characters = Node & {
-  __typename?: 'Characters';
-  book?: Maybe<Books>;
-  bookId?: Maybe<Scalars['Int']>;
-  /** The ID of the object. */
-  id: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
-};
-
 export type CreateBook = {
   __typename?: 'CreateBook';
   book?: Maybe<Books>;
@@ -62,6 +53,7 @@ export type CreateBook = {
 
 export type CreateBookInput = {
   author?: InputMaybe<Scalars['String']>;
+  genreId?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
 };
 
@@ -124,9 +116,11 @@ export type PageInfo = {
 
 export type Query = {
   __typename?: 'Query';
+  books?: Maybe<Array<Maybe<Books>>>;
   booksByGenre?: Maybe<Array<Maybe<Books>>>;
   booksByName?: Maybe<Array<Maybe<Books>>>;
   files?: Maybe<Array<Maybe<Files>>>;
+  genres?: Maybe<Array<Maybe<Genres>>>;
   goodbye?: Maybe<Scalars['String']>;
   hello?: Maybe<Scalars['String']>;
   /** The ID of the object */
@@ -165,11 +159,17 @@ export type UploadFileMutationVariables = Exact<{
 
 export type UploadFileMutation = { __typename?: 'Mutation', uploadFile?: { __typename?: 'UploadMutation', success?: boolean | null } | null };
 
+export type BooksQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type BooksQuery = { __typename?: 'Query', books?: Array<{ __typename?: 'Books', id: string, name?: string | null, genre?: { __typename?: 'Genres', id: string, name?: string | null } | null } | null> | null };
+
 export type FilesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FilesQuery = { __typename?: 'Query', files?: Array<{ __typename?: 'Files', name?: string | null, lastModified?: number | null } | null> | null };
+export type FilesQuery = { __typename?: 'Query', files?: Array<{ __typename?: 'Files', lastModified?: number | null, name?: string | null } | null> | null };
 
 
 export const UploadFileDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UploadFile"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"file"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Upload"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uploadFile"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"file"},"value":{"kind":"Variable","name":{"kind":"Name","value":"file"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"success"}}]}}]}}]} as unknown as DocumentNode<UploadFileMutation, UploadFileMutationVariables>;
-export const FilesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"files"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"files"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"lastModified"}}]}}]}}]} as unknown as DocumentNode<FilesQuery, FilesQueryVariables>;
+export const BooksDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"books"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"books"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"genre"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<BooksQuery, BooksQueryVariables>;
+export const FilesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"files"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"files"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lastModified"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<FilesQuery, FilesQueryVariables>;

@@ -1,0 +1,10 @@
+query books {
+  books {
+    genre {
+      id
+      name
+    }
+    id
+    name
+  }
+}

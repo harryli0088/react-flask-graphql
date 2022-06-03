@@ -23,7 +23,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "graphql_generate": "http://localhost:8000/graphql"
+    "graphql_generate": "graphql-codegen"
   },
   "eslintConfig": {
     "extends": [
