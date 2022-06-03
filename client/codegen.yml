@@ -5,6 +5,10 @@ generates:
     plugins:
       - typescript
       - typescript-operations
-      - typed-document-node
+      - typescript-react-query # https://www.graphql-code-generator.com/plugins/typescript-react-query
     config:
-      fetcher: fetch
+      fetcher:
+        endpoint: 'http://localhost:8000/graphql'
+        fetchParams:
+          headers:
+            Content-Type: application/json # https://stackoverflow.com/questions/36691554/graphql-post-body-must-provide-query-string

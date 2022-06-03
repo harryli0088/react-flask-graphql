@@ -1,9 +1,29 @@
-import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+import { useMutation, useQuery, UseMutationOptions, UseQueryOptions } from 'react-query';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+
+function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
+  return async (): Promise<TData> => {
+    const res = await fetch("http://localhost:8000/graphql", {
+    method: "POST",
+    ...({"headers":{"Content-Type":"application/json"}}),
+      body: JSON.stringify({ query, variables }),
+    });
+
+    const json = await res.json();
+
+    if (json.errors) {
+      const { message } = json.errors[0];
+
+      throw new Error(message);
+    }
+
+    return json.data;
+  }
+}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -226,10 +246,131 @@ export type GenresQueryVariables = Exact<{ [key: string]: never; }>;
 export type GenresQuery = { __typename?: 'Query', genres?: Array<{ __typename?: 'Genres', id: string, name?: string | null } | null> | null };
 
 
-export const CreateBookDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateBook"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"genreId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createBook"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"genreId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"genreId"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ok"}}]}}]}}]} as unknown as DocumentNode<CreateBookMutation, CreateBookMutationVariables>;
-export const DeleteBookDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteBook"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteBook"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ok"}}]}}]}}]} as unknown as DocumentNode<DeleteBookMutation, DeleteBookMutationVariables>;
-export const CreateGenreDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateGenre"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createGenre"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ok"}}]}}]}}]} as unknown as DocumentNode<CreateGenreMutation, CreateGenreMutationVariables>;
-export const UploadFileDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UploadFile"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"file"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Upload"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uploadFile"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"file"},"value":{"kind":"Variable","name":{"kind":"Name","value":"file"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"success"}}]}}]}}]} as unknown as DocumentNode<UploadFileMutation, UploadFileMutationVariables>;
-export const BooksDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"books"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"books"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"genre"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<BooksQuery, BooksQueryVariables>;
-export const FilesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"files"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"files"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lastModified"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<FilesQuery, FilesQueryVariables>;
-export const GenresDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"genres"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"genres"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<GenresQuery, GenresQueryVariables>;
+export const CreateBookDocument = `
+    mutation CreateBook($genreId: String!, $name: String!) {
+  createBook(input: {genreId: $genreId, name: $name}) {
+    ok
+  }
+}
+    `;
+export const useCreateBookMutation = <
+      TError,
+      TContext
+    >(options?: UseMutationOptions<CreateBookMutation, TError, CreateBookMutationVariables, TContext>) =>
+    useMutation<CreateBookMutation, TError, CreateBookMutationVariables, TContext>(
+      ['CreateBook'],
+      (variables?: CreateBookMutationVariables) => fetcher<CreateBookMutation, CreateBookMutationVariables>(CreateBookDocument, variables)(),
+      options
+    );
+export const DeleteBookDocument = `
+    mutation DeleteBook($id: String!) {
+  deleteBook(input: {id: $id}) {
+    ok
+  }
+}
+    `;
+export const useDeleteBookMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<DeleteBookMutation, TError, DeleteBookMutationVariables, TContext>) =>
+    useMutation<DeleteBookMutation, TError, DeleteBookMutationVariables, TContext>(
+      ['DeleteBook'],
+      (variables?: DeleteBookMutationVariables) => fetcher<DeleteBookMutation, DeleteBookMutationVariables>(DeleteBookDocument, variables)(),
+      options
+    );
+export const CreateGenreDocument = `
+    mutation CreateGenre($name: String!) {
+  createGenre(input: {name: $name}) {
+    ok
+  }
+}
+    `;
+export const useCreateGenreMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<CreateGenreMutation, TError, CreateGenreMutationVariables, TContext>) =>
+    useMutation<CreateGenreMutation, TError, CreateGenreMutationVariables, TContext>(
+      ['CreateGenre'],
+      (variables?: CreateGenreMutationVariables) => fetcher<CreateGenreMutation, CreateGenreMutationVariables>(CreateGenreDocument, variables)(),
+      options
+    );
+export const UploadFileDocument = `
+    mutation UploadFile($file: Upload!) {
+  uploadFile(file: $file) {
+    success
+  }
+}
+    `;
+export const useUploadFileMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<UploadFileMutation, TError, UploadFileMutationVariables, TContext>) =>
+    useMutation<UploadFileMutation, TError, UploadFileMutationVariables, TContext>(
+      ['UploadFile'],
+      (variables?: UploadFileMutationVariables) => fetcher<UploadFileMutation, UploadFileMutationVariables>(UploadFileDocument, variables)(),
+      options
+    );
+export const BooksDocument = `
+    query books {
+  books {
+    genre {
+      id
+      name
+    }
+    id
+    name
+  }
+}
+    `;
+export const useBooksQuery = <
+      TData = BooksQuery,
+      TError = unknown
+    >(
+      variables?: BooksQueryVariables,
+      options?: UseQueryOptions<BooksQuery, TError, TData>
+    ) =>
+    useQuery<BooksQuery, TError, TData>(
+      variables === undefined ? ['books'] : ['books', variables],
+      fetcher<BooksQuery, BooksQueryVariables>(BooksDocument, variables),
+      options
+    );
+export const FilesDocument = `
+    query files {
+  files {
+    lastModified
+    name
+  }
+}
+    `;
+export const useFilesQuery = <
+      TData = FilesQuery,
+      TError = unknown
+    >(
+      variables?: FilesQueryVariables,
+      options?: UseQueryOptions<FilesQuery, TError, TData>
+    ) =>
+    useQuery<FilesQuery, TError, TData>(
+      variables === undefined ? ['files'] : ['files', variables],
+      fetcher<FilesQuery, FilesQueryVariables>(FilesDocument, variables),
+      options
+    );
+export const GenresDocument = `
+    query genres {
+  genres {
+    id
+    name
+  }
+}
+    `;
+export const useGenresQuery = <
+      TData = GenresQuery,
+      TError = unknown
+    >(
+      variables?: GenresQueryVariables,
+      options?: UseQueryOptions<GenresQuery, TError, TData>
+    ) =>
+    useQuery<GenresQuery, TError, TData>(
+      variables === undefined ? ['genres'] : ['genres', variables],
+      fetcher<GenresQuery, GenresQueryVariables>(GenresDocument, variables),
+      options
+    );

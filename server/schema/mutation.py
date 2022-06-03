@@ -7,7 +7,6 @@ from models.books import Genres as GenresModel
 from graphqltypes.books import Books, CreateBookInput, DeleteBookInput
 from graphqltypes.genres import Genres, CreateGenreInput, DeleteGenreInput
 from utils.input_to_dictionary import input_to_dictionary
-from graphene_file_upload.scalars import Upload
 
 from os.path import join
 
@@ -60,23 +59,8 @@ class CreateGenre(graphene.Mutation):
         return CreateGenre(genre=genre, ok=ok)
 
 
-
-# https://github.com/lmcgartland/graphene-file-upload
-class UploadMutation(graphene.Mutation):
-        class Arguments:
-            file = Upload(required=True)
-
-        success = graphene.Boolean()
-
-        def mutate(self, info, file, **kwargs):
-            file.save(join("files",file.filename))
-
-            return UploadMutation(success=True)
-
 class Mutation(graphene.ObjectType):
     createBook = CreateBook.Field()
     deleteBook = DeleteBook.Field()
 
     createGenre = CreateGenre.Field()
-
-    uploadFile = UploadMutation.Field()

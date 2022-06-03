@@ -1,26 +1,21 @@
 import { useEffect, useState } from 'react';
+import { useQueryClient } from 'react-query'
 
 import {
-  useMutation,
-  useQuery
-} from "@apollo/client";
-import {
-  BooksDocument, 
-  CreateBookMutation, 
-  CreateBookDocument,
-  GenresDocument,
-  GenresQuery,
+  useCreateBookMutation,
+  useGenresQuery,
 } from '../graphql/generated';
 
 export default function CreateBook() {
-  const { loading:genresLoading, error:genresError, data:genres } = useQuery<GenresQuery>(GenresDocument);
+  const queryClient = useQueryClient()
+
+  const { data:genres } = useGenresQuery();
 
   const [genreId, setGenreId] = useState<string>("")
   const [name, setName] = useState<string>("")
-  const [createBook, { loading:createBookLoading, error:createBookError }] = useMutation<CreateBookMutation>(
-    CreateBookDocument,
-    { refetchQueries: [{query: BooksDocument}] } //automatically rerun this query after this mutation
-  )
+  const { error, isError, isLoading,  mutate:createBook } = useCreateBookMutation({
+    onSuccess: () => queryClient.refetchQueries(["books"]) //automatically refetch these queries after the mutation
+  })
 
   useEffect(() => {
     if(genreId==="" && genres?.genres?.[0]?.id) {
@@ -41,10 +36,7 @@ export default function CreateBook() {
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if(isValid) {
-      createBook({variables:{
-        genreId,
-        name
-      }})
+      createBook({ genreId, name })
     }
   }
 
@@ -70,8 +62,8 @@ export default function CreateBook() {
         <br/>
         <button disabled={!isValid}>Add Book</button>
         <br/>
-        <p>{createBookLoading && `Add...`}</p>
-        <p>{createBookError?.message && `Error: ${createBookError.message}`}</p>
+        <p>{isLoading && `Add...`}</p>
+        <p>{isError && `Error: ${error}`}</p>
       </form>
     </div>
   )

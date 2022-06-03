@@ -34,6 +34,7 @@ header {
 
 .icon {
   cursor: pointer;
+  transition: 0.25s;
 }
 .icon:hover {
 	transform: scale(1.1);

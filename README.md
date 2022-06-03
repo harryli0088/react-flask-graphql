@@ -41,6 +41,9 @@ cd server
 python main.py
 ```
 
+https://github.com/lmcgartland/graphene-file-upload
+
+
 ## Altair GraphQL Client
 https://altair.sirmuel.design/
 

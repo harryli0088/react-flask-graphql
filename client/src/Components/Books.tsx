@@ -1,23 +1,23 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { useQueryClient } from 'react-query'
+
 import {
-  BooksDocument,
-  BooksQuery,
-  DeleteBookDocument,
-  DeleteBookMutation
+  useBooksQuery,
+  useDeleteBookMutation,
 } from '../graphql/generated';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 export default function Books() {
-  const { loading, error, data } = useQuery<BooksQuery>(BooksDocument);
+  const queryClient = useQueryClient()
 
-  const [deleteBook, { loading:deleteBookLoading, error:deleteBookError }] = useMutation<DeleteBookMutation>(
-    DeleteBookDocument,
-    { refetchQueries: [{query: BooksDocument}] } //automatically rerun this query after this mutation
-  )
+  const { data, error, isLoading } = useBooksQuery();
 
-  if (loading) return <p>Loading books...</p>;
+  const { mutate: deleteBook } = useDeleteBookMutation({
+    onSuccess: () => queryClient.refetchQueries(["books"]) //automatically refetch these queries after the mutation
+  })
+
+  if (isLoading) return <p>Loading books...</p>;
   if (error) return <p>Error requesting books</p>;
 
   if(data?.books?.length === 0) return <p>There are no books</p>
@@ -36,7 +36,7 @@ export default function Books() {
           <tr key={b.id}>
             <td>{b.name}</td>
             <td>{b.genre?.name}</td>
-            <td className="right"><FontAwesomeIcon className="icon" icon={faTimes} onClick={() => deleteBook({ variables: { id: b.id } })}/></td>
+            <td className="right"><FontAwesomeIcon className="icon" icon={faTimes} onClick={() => deleteBook({ id: b.id })}/></td>
           </tr>
         ))}
       </tbody>
