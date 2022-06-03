@@ -10,13 +10,10 @@ import Files from "./Components/Files"
 import UploadFile from "./Components/UploadFile"
 import Blanchor from './Components/Blanchor';
 
-//TODO create/delete genre
-//TODO description and footer
-
 function App() {
   return (
     <>
-      <header className="App-header">
+      <header>
         <br/><br/>
         <h1>React Flask GraphQL SQLite3 Application</h1>
         <br/><br/>

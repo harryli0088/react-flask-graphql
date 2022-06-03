@@ -8,6 +8,7 @@ from graphqltypes.books import Books, CreateBookInput, DeleteBookInput
 from graphqltypes.genres import Genres, CreateGenreInput, DeleteGenreInput
 from utils.input_to_dictionary import input_to_dictionary
 
+import os
 from os.path import join
 
 class CreateBook(graphene.Mutation):
@@ -58,9 +59,23 @@ class CreateGenre(graphene.Mutation):
         ok = True
         return CreateGenre(genre=genre, ok=ok)
 
+class DeleteFile(graphene.Mutation):
+    success = graphene.Boolean()
+
+    class Arguments:
+        name = graphene.String()
+
+    @staticmethod
+    def mutate(self, info, name, **kwargs):
+        os.remove(join("files",name)) # TODO get from app config?
+        return DeleteFile(success=True)
+
+
 
 class Mutation(graphene.ObjectType):
     createBook = CreateBook.Field()
     deleteBook = DeleteBook.Field()
 
     createGenre = CreateGenre.Field()
+
+    deleteFile = DeleteFile.Field()
