@@ -11,7 +11,6 @@ class Books(SQLAlchemyObjectType):
 
 
 class BookAttribute:
-    author = graphene.String()
     genre_id = graphene.String()
     name = graphene.String()
 

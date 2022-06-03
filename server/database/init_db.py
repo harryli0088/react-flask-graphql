@@ -11,20 +11,16 @@ def init_db():
 
     fantasy = Genres(name='Fantasy')
     db_session.add(fantasy)
-    political_fiction = Genres(name='Political Fiction')
-    db_session.add(political_fiction)
-    philosophical_novel = Genres(name='Philosophical Novel')
-    db_session.add(philosophical_novel)
+    tragedy = Genres(name='Tragedy')
+    db_session.add(tragedy)
+    philosophy = Genres(name='Philosophy')
+    db_session.add(philosophy)
 
-    peter_wendy = Books(name='Peter & Wendy', author='J.M. Barrie', genre=fantasy)
+    peter_wendy = Books(name='Harry Potter', genre=fantasy)
     db_session.add(peter_wendy)
-    it_cant_happen = Books(name='It Can\'t Happen Here', author='Sinclair Lewis',
-                           genre=political_fiction)
+    it_cant_happen = Books(name='The Great Gatsby', genre=tragedy)
     db_session.add(it_cant_happen)
-    crooked_kingdom = Books(name='Crooked Kingdom', author='Leigh Bardugo', genre=fantasy)
+    crooked_kingdom = Books(name='Allegory of the Cave', genre=philosophy)
     db_session.add(crooked_kingdom)
-    crime_punishment = Books(name='Crime and Punishment', author='Fyodor Dostoyevsky',
-                             genre=philosophical_novel)
-    db_session.add(crime_punishment)
 
     db_session.commit()

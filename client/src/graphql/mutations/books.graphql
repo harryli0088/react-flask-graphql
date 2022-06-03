@@ -1,0 +1,5 @@
+mutation CreateBook($genreId:String!$name:String!) {
+  createBook(input:{genreId:$genreId,name:$name}) {
+    ok
+  }
+}

@@ -10,7 +10,6 @@ class Books(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String)
-    author = Column(String)
     genre_id = Column(Integer, ForeignKey('genres.id'))
     genre = relationship(
         Genres,

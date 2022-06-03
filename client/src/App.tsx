@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 
 import Books from "./Components/Books"
+import CreateBook from "./Components/CreateBook"
 import Files from "./Components/Files"
 import UploadFile from "./Components/UploadFile"
 
@@ -19,6 +20,8 @@ function App() {
 
       <section>
         <Books/>
+
+        <CreateBook/>
       </section>
 
       <section>
