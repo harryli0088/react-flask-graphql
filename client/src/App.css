@@ -1,8 +1,4 @@
-.App {
-  text-align: center;
-}
-
-.App img {
+img {
   height: 100px;
 }
 
@@ -41,4 +37,9 @@ header {
 }
 .icon:active {
 	transform: scale(0.9);
+}
+
+footer {
+  text-align: left;
+  background: #D5D8DC;
 }

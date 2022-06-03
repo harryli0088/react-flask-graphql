@@ -31,11 +31,6 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /**
-   * Create scalar that ignores normal serialization/deserialization, since
-   * that will be handled by the multipart request spec
-   */
-  Upload: any;
 };
 
 export type Books = Node & {
@@ -94,6 +89,11 @@ export type DeleteBookInput = {
   id?: InputMaybe<Scalars['String']>;
 };
 
+export type DeleteFile = {
+  __typename?: 'DeleteFile';
+  success?: Maybe<Scalars['Boolean']>;
+};
+
 export type Files = {
   __typename?: 'Files';
   lastModified?: Maybe<Scalars['Float']>;
@@ -121,7 +121,7 @@ export type Mutation = {
   createBook?: Maybe<CreateBook>;
   createGenre?: Maybe<CreateGenre>;
   deleteBook?: Maybe<DeleteBook>;
-  uploadFile?: Maybe<UploadMutation>;
+  deleteFile?: Maybe<DeleteFile>;
 };
 
 
@@ -140,8 +140,8 @@ export type MutationDeleteBookArgs = {
 };
 
 
-export type MutationUploadFileArgs = {
-  file: Scalars['Upload'];
+export type MutationDeleteFileArgs = {
+  name?: InputMaybe<Scalars['String']>;
 };
 
 /** An object with an ID */
@@ -196,11 +196,6 @@ export type QueryNodeArgs = {
   id: Scalars['ID'];
 };
 
-export type UploadMutation = {
-  __typename?: 'UploadMutation';
-  success?: Maybe<Scalars['Boolean']>;
-};
-
 export type CreateBookMutationVariables = Exact<{
   genreId: Scalars['String'];
   name: Scalars['String'];
@@ -223,12 +218,12 @@ export type CreateGenreMutationVariables = Exact<{
 
 export type CreateGenreMutation = { __typename?: 'Mutation', createGenre?: { __typename?: 'CreateGenre', ok?: boolean | null } | null };
 
-export type UploadFileMutationVariables = Exact<{
-  file: Scalars['Upload'];
+export type DeleteFileMutationVariables = Exact<{
+  name: Scalars['String'];
 }>;
 
 
-export type UploadFileMutation = { __typename?: 'Mutation', uploadFile?: { __typename?: 'UploadMutation', success?: boolean | null } | null };
+export type DeleteFileMutation = { __typename?: 'Mutation', deleteFile?: { __typename?: 'DeleteFile', success?: boolean | null } | null };
 
 export type BooksQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -254,8 +249,8 @@ export const CreateBookDocument = `
 }
     `;
 export const useCreateBookMutation = <
-      TError,
-      TContext
+      TError = unknown,
+      TContext = unknown
     >(options?: UseMutationOptions<CreateBookMutation, TError, CreateBookMutationVariables, TContext>) =>
     useMutation<CreateBookMutation, TError, CreateBookMutationVariables, TContext>(
       ['CreateBook'],
@@ -294,20 +289,20 @@ export const useCreateGenreMutation = <
       (variables?: CreateGenreMutationVariables) => fetcher<CreateGenreMutation, CreateGenreMutationVariables>(CreateGenreDocument, variables)(),
       options
     );
-export const UploadFileDocument = `
-    mutation UploadFile($file: Upload!) {
-  uploadFile(file: $file) {
+export const DeleteFileDocument = `
+    mutation deleteFile($name: String!) {
+  deleteFile(name: $name) {
     success
   }
 }
     `;
-export const useUploadFileMutation = <
+export const useDeleteFileMutation = <
       TError = unknown,
       TContext = unknown
-    >(options?: UseMutationOptions<UploadFileMutation, TError, UploadFileMutationVariables, TContext>) =>
-    useMutation<UploadFileMutation, TError, UploadFileMutationVariables, TContext>(
-      ['UploadFile'],
-      (variables?: UploadFileMutationVariables) => fetcher<UploadFileMutation, UploadFileMutationVariables>(UploadFileDocument, variables)(),
+    >(options?: UseMutationOptions<DeleteFileMutation, TError, DeleteFileMutationVariables, TContext>) =>
+    useMutation<DeleteFileMutation, TError, DeleteFileMutationVariables, TContext>(
+      ['deleteFile'],
+      (variables?: DeleteFileMutationVariables) => fetcher<DeleteFileMutation, DeleteFileMutationVariables>(DeleteFileDocument, variables)(),
       options
     );
 export const BooksDocument = `

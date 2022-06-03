@@ -1,5 +1,5 @@
-mutation UploadFile($file:Upload!) {
-  uploadFile(file: $file) {
+mutation deleteFile($name:String!) {
+  deleteFile(name:$name) {
     success
   }
 }
