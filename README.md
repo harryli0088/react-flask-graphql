@@ -1,9 +1,11 @@
 # React Flask GraphQL SQLite3 Application
 
-<img src="client/src/logo.svg" alt="react logo" height="100"/>
-<img src="client/src/flask_logo.png" alt="react logo" height="100"/>
-<img src="client/src/graphql_logo.png" alt="react logo" height="100"/>
-<img src="client/src/sqlite3_logo.png" alt="react logo" height="100"/>
+<div>
+  <img src="client/src/logo.svg" alt="react logo" height="100" style="float:left"/>
+  <img src="client/src/flask_logo.png" alt="flask logo" height="100" style="float:left"/>
+  <img src="client/src/graphql_logo.png" alt="graphql logo" height="100" style="float:left"/>
+  <img src="client/src/sqlite3_logo.png" alt="sqlite3 logo" height="100" style="float:left"/>
+ </div>
 
 This is an experimental application I made using React on the frontend, Flask as the backend, SQLite3 as the database, and GraphQL to communicate between the front and backends.
 
