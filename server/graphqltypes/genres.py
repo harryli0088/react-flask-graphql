@@ -1,3 +1,4 @@
+import graphene
 from graphene import relay
 from graphene_sqlalchemy import SQLAlchemyObjectType
 
@@ -8,3 +9,18 @@ class Genres(SQLAlchemyObjectType):
     class Meta:
         model = GenresModel
         interfaces = (relay.Node,)
+
+
+class GenreAttribute:
+    name = graphene.String()
+
+
+class CreateGenreInput(graphene.InputObjectType, GenreAttribute):
+    pass
+
+
+class DeleteGenreAttribute:
+    id = graphene.String()
+
+class DeleteGenreInput(graphene.InputObjectType, DeleteGenreAttribute):
+    pass

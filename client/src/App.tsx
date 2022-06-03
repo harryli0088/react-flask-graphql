@@ -9,10 +9,9 @@ import CreateBook from "./Components/CreateBook"
 import Files from "./Components/Files"
 import UploadFile from "./Components/UploadFile"
 
-//TODO create/update/delete book
 //TODO create/update/delete genre
-//TODO download file
-//TODO styling
+//TODO download, delete file
+//TODO description and footer
 
 function App() {
   return (

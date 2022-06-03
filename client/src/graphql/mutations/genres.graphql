@@ -1,0 +1,5 @@
+mutation CreateGenre($name:String!) {
+  createGenre(input:{name:$name}) {
+    ok
+  }
+}

@@ -3,3 +3,9 @@ mutation CreateBook($genreId:String!$name:String!) {
     ok
   }
 }
+
+mutation DeleteBook($id:String!) {
+  deleteBook(input:{id: $id}) {
+    ok
+  }
+}

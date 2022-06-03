@@ -17,3 +17,10 @@ class BookAttribute:
 
 class CreateBookInput(graphene.InputObjectType, BookAttribute):
     pass
+
+
+class DeleteBookAttribute:
+    id = graphene.String()
+
+class DeleteBookInput(graphene.InputObjectType, DeleteBookAttribute):
+    pass
